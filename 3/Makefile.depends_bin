@@ -1,0 +1,9 @@
+bin/main.cmo : \
+    bin/parsing.cmi
+bin/main.cmx : \
+    bin/parsing.cmx
+bin/parsing.cmo : \
+    bin/parsing.cmi
+bin/parsing.cmx : \
+    bin/parsing.cmi
+bin/parsing.cmi :

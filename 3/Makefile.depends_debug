@@ -1,0 +1,9 @@
+debug/main.cmo : \
+    debug/parsing.cmi
+debug/main.cmx : \
+    debug/parsing.cmx
+debug/parsing.cmo : \
+    debug/parsing.cmi
+debug/parsing.cmx : \
+    debug/parsing.cmi
+debug/parsing.cmi :
