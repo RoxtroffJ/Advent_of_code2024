@@ -1,10 +1,10 @@
 open Parsing
 
+let ex1 _input = 0
+let ex2 _input = 0
+
 let _ =
   let input = "example" |> load in
-  
-  let ex1 = 0 in
-  let ex2 = 0 in
 
-  Printf.printf "Result 1: %d\n" ex1;
-  Printf.printf "Result 2: %d\n" ex2
+  input |> ex1 |> Printf.printf "Result 1: %d\n";
+  input |> ex2 |> Printf.printf "Result 2: %d\n"
