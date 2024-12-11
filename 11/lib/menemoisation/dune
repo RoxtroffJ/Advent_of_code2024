@@ -1,0 +1,3 @@
+(library
+ (name memoisation)
+ (public_name aoc.memoisation))
