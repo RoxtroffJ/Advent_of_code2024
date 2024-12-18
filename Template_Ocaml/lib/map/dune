@@ -1,0 +1,3 @@
+(library
+ (name map)
+ (public_name aoc.map))
