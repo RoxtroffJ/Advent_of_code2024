@@ -1,0 +1,3 @@
+(library
+ (name parsing)
+ (public_name aoc.parsing))
