@@ -1,0 +1,3 @@
+(library
+ (name prio_queue)
+ (public_name aoc.prio_queue))
