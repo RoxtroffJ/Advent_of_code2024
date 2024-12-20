@@ -56,6 +56,9 @@ val create: unit -> 'a t
     To convert a character into a map element, the provided function is used. If it raises the {!Out_of_bounds} exception, then the character is ignored.*)
 val of_strings: (char -> 'a) -> string array -> 'a t
 
+(** Reverse of {!of_strings}. The extra provided character will be used to offset lines if needed.*)
+val to_strings: ('a -> char) -> char -> 'a t -> string array
+
 (** [creates height width f] creates a rectangle map, filled with the returned values of [f]*)
 val create_rectangle: int -> int -> (position -> 'a) -> 'a t 
 
@@ -75,6 +78,9 @@ val edit: 'a t -> position -> ('a -> 'a) -> unit
 
 (** If the map does not contain anything at the given position, [set_or map pos f g e] is [set map pos (g e)]. Else it is [edit map pos (f e)]*)
 val set_or: 'a t -> position -> ('b -> 'a -> 'a) -> ('b -> 'a) -> 'b -> unit
+
+(** Folds on all the cells, in an arbitrary order. The behavior is unspecified if the provided function modifies the map.*)
+val fold: ('b -> position -> 'a -> 'b) -> 'b -> 'a t -> 'b
 
 (** Finds the first occurence that matches the provided test, and returns it. Raises [Not_found] if there is no such element in the map.*)
 val find: 'a t -> (position -> 'a -> bool) -> (position * 'a)
