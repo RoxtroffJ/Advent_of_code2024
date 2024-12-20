@@ -32,6 +32,16 @@ let is_in_bounds = Hashtbl.mem
 let get map pos = try Hashtbl.find map pos with _ -> raise Out_of_bounds
 let set map = Hashtbl.replace map
 
+let create_rectangle height width f = 
+  let map = create () in
+  for i = 0 to height-1 do
+    for j = 0 to width-1 do
+      let pos = pos_of_int i j in
+      set map pos (f pos)
+    done
+  done;
+  map
+
 let of_strings f input = 
   let map = create () in
   Array.iteri (fun i str -> 
@@ -55,3 +65,41 @@ let find map test =
     Hashtbl.iter f map;
     raise Not_found
   with Found pos -> pos, get map pos
+
+
+module Prio = Prio_queue.Make(Int)
+
+let path_find wall directions distance map start finish = 
+  let queue = Prio.create true in
+  let seen = Hashtbl.create 42 in
+
+  let push (pos, g, path) = Prio.upgrade queue (pos,path) (g + distance pos finish) |> ignore in
+
+  let rec astar () = 
+    let (pos,path), f = Prio.pop queue in
+
+    if Hashtbl.mem seen pos then astar () else begin
+    
+    Hashtbl.add seen pos ();
+    
+    let g = f - distance pos finish in
+    if pos = finish then path
+    
+    else begin
+      (* compute the neighbors *)
+      let neighbors = 
+        directions
+        |> List.map (function dir -> 
+          let new_pos = step pos dir in
+          new_pos, g + distance pos new_pos, new_pos::path)
+      in
+      neighbors
+      |> List.filter (function pos,_,_ -> try not @@ wall (get map pos) with Out_of_bounds -> false)
+      |> List.filter (function pos,_,_ -> Hashtbl.mem seen pos |> not)
+      |> List.iter push;
+      astar ()
+    end end
+  
+  in 
+  push (start,0,[start]);
+  astar ()

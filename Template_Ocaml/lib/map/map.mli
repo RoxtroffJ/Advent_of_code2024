@@ -56,6 +56,9 @@ val create: unit -> 'a t
     To convert a character into a map element, the provided function is used. If it raises the {!Out_of_bounds} exception, then the character is ignored.*)
 val of_strings: (char -> 'a) -> string array -> 'a t
 
+(** [creates height width f] creates a rectangle map, filled with the returned values of [f]*)
+val create_rectangle: int -> int -> (position -> 'a) -> 'a t 
+
 (** Indicates if the given position is in the bounds of the map.*)
 val is_in_bounds: 'a t -> position -> bool
 
@@ -75,3 +78,8 @@ val set_or: 'a t -> position -> ('b -> 'a -> 'a) -> ('b -> 'a) -> 'b -> unit
 
 (** Finds the first occurence that matches the provided test, and returns it. Raises [Not_found] if there is no such element in the map.*)
 val find: 'a t -> (position -> 'a -> bool) -> (position * 'a)
+
+(** [path_find wall directions distance map start finish] finds and returns the shortest path (according to the [distance] function from [start] to [finish]. 
+The path is continus, does not cross cells for which the [wall] function returns [true], 
+and the direction between two consequtive cells is always in the [direction] list.*)
+val path_find: ('a -> bool) -> direction list -> (position -> position -> int) -> 'a t -> position -> position -> position list
