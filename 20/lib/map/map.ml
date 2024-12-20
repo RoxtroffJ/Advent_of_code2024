@@ -49,6 +49,34 @@ let of_strings f input =
       try set map (pos_of_int i j) (f c) with Out_of_bounds -> ()) str) input;
   map
 
+let to_strings f e map = 
+  let matrix = Dynarray.create () in
+
+  let resize a i default = 
+    while Dynarray.length a <= i do
+      Dynarray.add_last a (default ())
+    done
+  in
+
+  let add i j c = 
+    resize matrix i Dynarray.create;
+
+    let line = Dynarray.get matrix i in
+
+    resize line j (fun _ -> e);
+
+    Dynarray.set line j c
+  in
+
+  Hashtbl.iter (fun pos v -> 
+    let i,j = int_of_pos pos in
+    add i j (f v)) map;
+  
+  matrix
+  |> Dynarray.map (function a -> a |> Dynarray.to_seq |> String.of_seq)
+  |> Dynarray.to_array
+
+
 let edit map pos f = set map pos (get map pos |> f)
 
 let set_or map pos f g e = 
@@ -57,6 +85,9 @@ let set_or map pos f g e =
     set map pos (f e old_e)
   with
   | Out_of_bounds -> set map pos (g e)
+
+let fold f acc map = Hashtbl.fold (fun pos v acc -> f acc pos v) map acc
+
 
 let find map test = 
   let exception Found of position in
