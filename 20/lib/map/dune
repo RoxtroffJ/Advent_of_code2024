@@ -1,0 +1,4 @@
+(library
+ (name map)
+ (public_name aoc.map)
+ (libraries prio_queue))
