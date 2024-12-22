@@ -1,0 +1,6 @@
+File "lib/graph/graph.ml", line 1:
+Error: The implementation "lib/graph/graph.ml"
+       does not match the interface "lib/graph/graph.ml": 
+       The value "add_with_fun" is required but not provided
+       File "lib/graph/graph.mli", line 18, characters 0-49:
+         Expected declaration

@@ -1,0 +1,4 @@
+(library
+ (name graph)
+ (public_name aoc.graph)
+ (libraries prio_queue))
